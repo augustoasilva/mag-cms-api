@@ -8,12 +8,16 @@ namespace CmsApi.Controllers;
 [Route("api/[controller]")]
 public class SubjectController : Controller
 {
-private readonly ISubjectRepository _repo;
+    private readonly ISubjectRepository _repo;
+    
+    private readonly IGradeRepository _gradeRepo;
 
-    public SubjectController(ISubjectRepository repo)
+    public SubjectController(ISubjectRepository repo, IGradeRepository gradeRepo)
     {
         _repo = repo;
+        _gradeRepo = gradeRepo;
     }
+
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
@@ -42,6 +46,21 @@ private readonly ISubjectRepository _repo;
             return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
         }
     }
+
+    [HttpGet("{subjectId}/grades/student/{studentId}")]
+    public async Task<IActionResult> GetById(int subjectId, int studentId)
+    {
+        try
+        {
+            var result = await _gradeRepo.GetGradeByStudentIdAndSubjectIdAsync(studentId, subjectId);
+            return Ok(result);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
+        }
+    }
+
 
     [HttpPost]
     public async Task<IActionResult> PostSubject(Subject subject)
