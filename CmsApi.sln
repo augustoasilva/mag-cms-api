@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmsApi", "CmsApi\CmsApi.csproj", "{7F5435E9-B0E0-4895-837B-E3886BC736FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmsApiTest", "CmsApiTest\CmsApiTest.csproj", "{19CE8E15-5542-40AD-AD64-B589AD0E162C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F5435E9-B0E0-4895-837B-E3886BC736FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F5435E9-B0E0-4895-837B-E3886BC736FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F5435E9-B0E0-4895-837B-E3886BC736FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F5435E9-B0E0-4895-837B-E3886BC736FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19CE8E15-5542-40AD-AD64-B589AD0E162C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19CE8E15-5542-40AD-AD64-B589AD0E162C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19CE8E15-5542-40AD-AD64-B589AD0E162C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19CE8E15-5542-40AD-AD64-B589AD0E162C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
