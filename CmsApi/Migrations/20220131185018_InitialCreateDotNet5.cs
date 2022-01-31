@@ -1,11 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
 namespace CmsApi.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreateDotNet5 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -186,12 +184,12 @@ namespace CmsApi.Migrations
                     { 1, 1, 1, 9.5 },
                     { 2, 1, 1, 7.25 },
                     { 3, 1, 1, 8.0 },
+                    { 9, 1, 5, 9.0 },
+                    { 8, 1, 5, 10.0 },
                     { 4, 1, 2, 8.5 },
                     { 5, 1, 2, 8.6999999999999993 },
                     { 6, 1, 2, 8.9000000000000004 },
-                    { 7, 1, 5, 10.0 },
-                    { 8, 1, 5, 10.0 },
-                    { 9, 1, 5, 9.0 }
+                    { 7, 1, 5, 10.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -199,19 +197,19 @@ namespace CmsApi.Migrations
                 columns: new[] { "StudentId", "SubjectId", "Id" },
                 values: new object[,]
                 {
-                    { 1, 1, 0 },
-                    { 1, 2, 0 },
                     { 1, 5, 0 },
-                    { 2, 1, 0 },
-                    { 2, 2, 0 },
-                    { 2, 5, 0 },
-                    { 3, 1, 0 },
-                    { 3, 2, 0 },
-                    { 3, 5, 0 },
-                    { 4, 3, 0 },
+                    { 5, 4, 0 },
                     { 4, 4, 0 },
                     { 5, 3, 0 },
-                    { 5, 4, 0 }
+                    { 2, 2, 0 },
+                    { 3, 2, 0 },
+                    { 2, 5, 0 },
+                    { 1, 2, 0 },
+                    { 3, 1, 0 },
+                    { 2, 1, 0 },
+                    { 1, 1, 0 },
+                    { 4, 3, 0 },
+                    { 3, 5, 0 }
                 });
 
             migrationBuilder.CreateIndex(
