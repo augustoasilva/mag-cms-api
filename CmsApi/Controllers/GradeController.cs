@@ -1,113 +1,117 @@
-﻿using CmsApi.Models;
+﻿using System;
+using System.Threading.Tasks;
+using CmsApi.Models;
 using CmsApi.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CmsApi.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class GradeController : Controller
+namespace CmsApi.Controllers
 {
-    private readonly IGradeRepository _repo;
-
-    public GradeController(IGradeRepository repo)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class GradeController : Controller
     {
-        _repo = repo;
-    }
+        private readonly IGradeRepository _repo;
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        try
+        public GradeController(IGradeRepository repo)
         {
-            var result = await _repo.GetAsync();
-            return Ok(result);
+            _repo = repo;
         }
-        catch (Exception e)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
-        }
-    }
 
-    [HttpGet("{gradeId}")]
-    public async Task<IActionResult> GetById(int gradeId)
-    {
-        try
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            var result = await _repo.GetByIdAsync(gradeId);
-            return Ok(result);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
-        }
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> PostGrade(Grade grade)
-    {
-        try
-        {
-            var result = await _repo.AddAsync(grade);
-            if (!result)
+            try
             {
-                throw new Exception("Something went wrong!");
+                var result = await _repo.GetAsync();
+                return Ok(result);
             }
-
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
-        }
-    }
-
-    [HttpPut("{gradeId}")]
-    public async Task<IActionResult> PutGrade(Grade grade, int gradeId)
-    {
-        try
-        {
-            if (grade.Id != gradeId)
+            catch (Exception e)
             {
-                throw new Exception("Invalid grade to update!");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
             }
-
-            var result = await _repo.UpdateAsync(grade);
-            if (!result)
-            {
-                throw new Exception("Something went wrong!");
-            }
-
-            return Ok();
         }
-        catch (Exception e)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
-        }
-    }
 
-    [HttpDelete("{gradeId}")]
-    public async Task<IActionResult> DeleteGrade(int gradeId)
-    {
-        try
+        [HttpGet("{gradeId}")]
+        public async Task<IActionResult> GetById(int gradeId)
         {
-            var resultGet = await _repo.GetByIdAsync(gradeId);
-            if (resultGet.Id != gradeId)
+            try
             {
-                throw new Exception("Invalid grade to update!");
+                var result = await _repo.GetByIdAsync(gradeId);
+                return Ok(result);
             }
-
-            var result = await _repo.DeleteAsync(resultGet);
-            if (!result)
+            catch (Exception e)
             {
-                throw new Exception("Something went wrong!");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
             }
-
-            return Ok();
         }
-        catch (Exception e)
+
+        [HttpPost]
+        public async Task<IActionResult> PostGrade(Grade grade)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
+            try
+            {
+                var result = await _repo.AddAsync(grade);
+                if (!result)
+                {
+                    throw new Exception("Something went wrong!");
+                }
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
+            }
+        }
+
+        [HttpPut("{gradeId}")]
+        public async Task<IActionResult> PutGrade(Grade grade, int gradeId)
+        {
+            try
+            {
+                if (grade.Id != gradeId)
+                {
+                    throw new Exception("Invalid grade to update!");
+                }
+
+                var result = await _repo.UpdateAsync(grade);
+                if (!result)
+                {
+                    throw new Exception("Something went wrong!");
+                }
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
+            }
+        }
+
+        [HttpDelete("{gradeId}")]
+        public async Task<IActionResult> DeleteGrade(int gradeId)
+        {
+            try
+            {
+                var resultGet = await _repo.GetByIdAsync(gradeId);
+                if (resultGet.Id != gradeId)
+                {
+                    throw new Exception("Invalid grade to update!");
+                }
+
+                var result = await _repo.DeleteAsync(resultGet);
+                if (!result)
+                {
+                    throw new Exception("Something went wrong!");
+                }
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
+            }
         }
     }
 }

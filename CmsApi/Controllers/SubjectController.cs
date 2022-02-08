@@ -1,132 +1,136 @@
-﻿using CmsApi.Models;
+﻿using System;
+using System.Threading.Tasks;
+using CmsApi.Models;
 using CmsApi.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CmsApi.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class SubjectController : Controller
+namespace CmsApi.Controllers
 {
-    private readonly ISubjectRepository _repo;
-    
-    private readonly IGradeRepository _gradeRepo;
-
-    public SubjectController(ISubjectRepository repo, IGradeRepository gradeRepo)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class SubjectController : Controller
     {
-        _repo = repo;
-        _gradeRepo = gradeRepo;
-    }
+        private readonly ISubjectRepository _repo;
+
+        private readonly IGradeRepository _gradeRepo;
+
+        public SubjectController(ISubjectRepository repo, IGradeRepository gradeRepo)
+        {
+            _repo = repo;
+            _gradeRepo = gradeRepo;
+        }
 
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        try
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            var result = await _repo.GetAsync();
-            return Ok(result);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
-        }
-    }
-
-    [HttpGet("{subjectId}")]
-    public async Task<IActionResult> GetById(int subjectId)
-    {
-        try
-        {
-            var result = await _repo.GetByIdAsync(subjectId);
-            return Ok(result);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
-        }
-    }
-
-    [HttpGet("{subjectId}/grades/student/{studentId}")]
-    public async Task<IActionResult> GetById(int subjectId, int studentId)
-    {
-        try
-        {
-            var result = await _gradeRepo.GetGradeByStudentIdAndSubjectIdAsync(studentId, subjectId);
-            return Ok(result);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
-        }
-    }
-
-
-    [HttpPost]
-    public async Task<IActionResult> PostSubject(Subject subject)
-    {
-        try
-        {
-            var result = await _repo.AddAsync(subject);
-            if (!result)
+            try
             {
-                throw new Exception("Something went wrong!");
+                var result = await _repo.GetAsync();
+                return Ok(result);
             }
-
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
-        }
-    }
-
-    [HttpPut("{subjectId}")]
-    public async Task<IActionResult> PutSubject(Subject subject, int subjectId)
-    {
-        try
-        {
-            if (subject.Id != subjectId)
+            catch (Exception e)
             {
-                throw new Exception("Invalid subject to update!");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
             }
-
-            var result = await _repo.UpdateAsync(subject);
-            if (!result)
-            {
-                throw new Exception("Something went wrong!");
-            }
-
-            return Ok();
         }
-        catch (Exception e)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
-        }
-    }
 
-    [HttpDelete("{subjectId}")]
-    public async Task<IActionResult> DeleteSubject(int subjectId)
-    {
-        try
+        [HttpGet("{subjectId}")]
+        public async Task<IActionResult> GetById(int subjectId)
         {
-            var resultGet = await _repo.GetByIdAsync(subjectId);
-            if (resultGet.Id != subjectId)
+            try
             {
-                throw new Exception("Invalid subject to update!");
+                var result = await _repo.GetByIdAsync(subjectId);
+                return Ok(result);
             }
-
-            var result = await _repo.DeleteAsync(resultGet);
-            if (!result)
+            catch (Exception e)
             {
-                throw new Exception("Something went wrong!");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
             }
-
-            return Ok();
         }
-        catch (Exception e)
+
+        [HttpGet("{subjectId}/grades/student/{studentId}")]
+        public async Task<IActionResult> GetById(int subjectId, int studentId)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
+            try
+            {
+                var result = await _gradeRepo.GetGradeByStudentIdAndSubjectIdAsync(studentId, subjectId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> PostSubject(Subject subject)
+        {
+            try
+            {
+                var result = await _repo.AddAsync(subject);
+                if (!result)
+                {
+                    throw new Exception("Something went wrong!");
+                }
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
+            }
+        }
+
+        [HttpPut("{subjectId}")]
+        public async Task<IActionResult> PutSubject(Subject subject, int subjectId)
+        {
+            try
+            {
+                if (subject.Id != subjectId)
+                {
+                    throw new Exception("Invalid subject to update!");
+                }
+
+                var result = await _repo.UpdateAsync(subject);
+                if (!result)
+                {
+                    throw new Exception("Something went wrong!");
+                }
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
+            }
+        }
+
+        [HttpDelete("{subjectId}")]
+        public async Task<IActionResult> DeleteSubject(int subjectId)
+        {
+            try
+            {
+                var resultGet = await _repo.GetByIdAsync(subjectId);
+                if (resultGet.Id != subjectId)
+                {
+                    throw new Exception("Invalid subject to update!");
+                }
+
+                var result = await _repo.DeleteAsync(resultGet);
+                if (!result)
+                {
+                    throw new Exception("Something went wrong!");
+                }
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {e.Message}");
+            }
         }
     }
 }

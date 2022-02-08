@@ -1,22 +1,25 @@
-﻿namespace CmsApi.Models;
+﻿using System.Collections.Generic;
 
-public class Subject : Entity
+namespace CmsApi.Models
 {
-    public string Name { get; set; }
-    public int TeacherId { get; set; }
-    public Teacher? Teacher { get; set; }
-    public int CourseId { get; set; }
-    public Course? Course { get; set; }
-    public IEnumerable<StudentSubject>? Students { get; set; }
-
-    public Subject() : base()
+    public class Subject : Entity
     {
-    }
+        public string Name { get; set; }
+        public int TeacherId { get; set; }
+        public Teacher Teacher { get; set; }
+        public int CourseId { get; set; }
+        public Course Course { get; set; }
+        public IEnumerable<StudentSubject> Students { get; set; }
 
-    public Subject(int id, string name, int teacherId, int courseId) : base(id)
-    {
-        Name = name;
-        TeacherId = teacherId;
-        CourseId = courseId;
+        public Subject() : base()
+        {
+        }
+
+        public Subject(int id, string name, int teacherId, int courseId) : base(id)
+        {
+            Name = name;
+            TeacherId = teacherId;
+            CourseId = courseId;
+        }
     }
 }

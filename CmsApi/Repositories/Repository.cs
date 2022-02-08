@@ -1,92 +1,97 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using CmsApi.Data;
 using CmsApi.Models;
 using CmsApi.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CmsApi.Repositories;
-
-public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
+namespace CmsApi.Repositories
 {
-    public readonly DbSet<TEntity> _DbSet;
-    public readonly DataContext _DataContext;
-
-    public Repository(DataContext dataContext)
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
     {
-        _DbSet = dataContext.Set<TEntity>();
-        _DataContext = dataContext;
-    }
+        public readonly DbSet<TEntity> _DbSet;
+        public readonly DataContext _DataContext;
 
-    public async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? filter = null)
-    {
-        var query = _DbSet.AsQueryable();
-
-        if (filter != null)
-            query = query
-                .Where(filter)
-                .AsNoTracking();
-
-        return await query.ToListAsync();
-    }
-
-    public async Task<TEntity> GetByIdAsync(int id)
-    {
-        return await _DbSet.FindAsync(id);
-    }
-    
-    public async Task<TEntity> GetByCompositeIdAsync(int id1, int id2)
-    {
-        return await _DbSet.FindAsync(id1, id2);
-    }
-
-    public async Task<bool> AddAsync(TEntity entity)
-    {
-        try
+        public Repository(DataContext dataContext)
         {
-            await _DbSet.AddAsync(entity);
-            await _DataContext.SaveChangesAsync();
-            return true;
+            _DbSet = dataContext.Set<TEntity>();
+            _DataContext = dataContext;
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return false;
-        }
-    }
 
-    public async Task<bool> DeleteAsync(TEntity entity)
-    {
-        try
+        public async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? filter = null)
         {
-            _DbSet.Remove(entity);
-            await _DataContext.SaveChangesAsync();
-            return true;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return false;
-        }
-    }
+            var query = _DbSet.AsQueryable();
 
-    public async Task<bool> UpdateAsync(TEntity entity)
-    {
-        try
-        {
-            _DbSet.Update(entity);
-            await _DataContext.SaveChangesAsync();
-            return true;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return false;
-        }
-    }
+            if (filter != null)
+                query = query
+                    .Where(filter)
+                    .AsNoTracking();
 
-    public DataContext GetDataContext()
-    {
-        return _DataContext;
-       // return dataContext;
+            return await query.ToListAsync();
+        }
+
+        public async Task<TEntity> GetByIdAsync(int id)
+        {
+            return await _DbSet.FindAsync(id);
+        }
+
+        public async Task<TEntity> GetByCompositeIdAsync(int id1, int id2)
+        {
+            return await _DbSet.FindAsync(id1, id2);
+        }
+
+        public async Task<bool> AddAsync(TEntity entity)
+        {
+            try
+            {
+                await _DbSet.AddAsync(entity);
+                await _DataContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteAsync(TEntity entity)
+        {
+            try
+            {
+                _DbSet.Remove(entity);
+                await _DataContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateAsync(TEntity entity)
+        {
+            try
+            {
+                _DbSet.Update(entity);
+                await _DataContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        public DataContext GetDataContext()
+        {
+            return _DataContext;
+            // return dataContext;
+        }
     }
 }

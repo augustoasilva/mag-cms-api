@@ -1,16 +1,17 @@
-﻿namespace CmsApi.Models;
-
-public abstract  class Entity
+﻿namespace CmsApi.Models
 {
-    public int Id { get; set; }
+    public abstract class Entity
+    {
+        public int Id { get; set; }
 
-    protected Entity()
-    {
-        
-    }
-    
-    protected Entity(int id)
-    {
-        Id = id;
+        protected Entity()
+        {
+
+        }
+
+        protected Entity(int id)
+        {
+            Id = id;
+        }
     }
 }

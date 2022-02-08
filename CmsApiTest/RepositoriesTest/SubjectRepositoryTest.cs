@@ -41,46 +41,46 @@ public class SubjectRepositoryTest
         Assert.Single(items);
     }
 
-    [Fact]
-    public async Task ShouldGetSubject()
-    {
-        // Arrange
-        const int itemId = 2;
-        _context.Subjects.Add( new (2, "Physics 1", 2, 1));
-        await _context.SaveChangesAsync();
-
-        var repo = new Repository<Subject>(_context);
-        var sut = new SubjectRepository(repo);
-
-        // Act
-        var result = await sut.GetByIdAsync(itemId);
-
-        // Assert
-        Assert.NotNull(result);
-    }
-
-    [Fact]
-    public async Task ShouldGetAllSubjects()
-    {
-        // Arrange
-        var Subjects = new List<Subject>()
-        {
-            new Subject(3, "Algorithms 1", 3, 2),
-            new Subject(4, "Linear Algebra", 4, 2)
-        };
-
-        _context.Subjects.AddRange(Subjects);
-        await _context.SaveChangesAsync();
-
-        var repo = new Repository<Subject>(_context);
-        var sut = new SubjectRepository(repo);
-
-        // Act
-        var result = await sut.GetAsync();
-
-        // Assert
-        Assert.Equal(Subjects.Count, result.Count());
-    }
+    // [Fact]
+    // public async Task ShouldGetSubject()
+    // {
+    //     // Arrange
+    //     const int itemId = 2;
+    //     _context.Subjects.Add( new (2, "Physics 1", 2, 1));
+    //     await _context.SaveChangesAsync();
+    //
+    //     var repo = new Repository<Subject>(_context);
+    //     var sut = new SubjectRepository(repo);
+    //
+    //     // Act
+    //     var result = await sut.GetByIdAsync(itemId);
+    //
+    //     // Assert
+    //     Assert.NotNull(result);
+    // }
+    //
+    // [Fact]
+    // public async Task ShouldGetAllSubjects()
+    // {
+    //     // Arrange
+    //     var Subjects = new List<Subject>()
+    //     {
+    //         new Subject(3, "Algorithms 1", 3, 2),
+    //         new Subject(4, "Linear Algebra", 4, 2)
+    //     };
+    //
+    //     _context.Subjects?.AddRange(Subjects);
+    //     await _context.SaveChangesAsync();
+    //
+    //     var repo = new Repository<Subject>(_context);
+    //     var sut = new SubjectRepository(repo);
+    //
+    //     // Act
+    //     var result = await sut.GetAsync();
+    //
+    //     // Assert
+    //     Assert.Equal(Subjects.Count, result.Count());
+    // }
 
     [Fact]
     public async Task ShouldUpdateSubject()
